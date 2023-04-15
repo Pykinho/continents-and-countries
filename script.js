@@ -37,6 +37,7 @@ const query = `
       numCountries,
       query
     );
+    console.log(await getCountryDetails(countries));
   } catch (error) {
     console.error(error);
   }
@@ -99,4 +100,54 @@ async function getCountries(
 
   const sampleCountries = getSampleCountries(countries, numCountries);
   return sampleCountries;
+}
+
+async function getCountryDetails(countries) {
+  const countryDetails = [];
+  for (const country of countries) {
+    const response = await fetch(
+      `https://restcountries.com/v3.1/name/${encodeURIComponent(country)}`
+    );
+    const data = await response.json();
+    const countryData = data[0];
+    const languageNames = [];
+    const currencyNames = [];
+
+    if (countryData) {
+      const { name, capital, population, currencies, subregion, languages } =
+        countryData;
+      const officialName = name.official;
+      for (const currency of Object.values(currencies)) {
+        currencyNames.push(currency);
+      }
+
+      for (const language of Object.values(languages)) {
+        languageNames.push(language);
+      }
+      countryDetails.push({
+        name: officialName,
+        capital,
+        population,
+        currencies: currencyNames,
+        subregion,
+        languages: languageNames,
+      });
+    } else {
+      countryDetails.push({
+        name: country,
+        information: 'No information found',
+      });
+    }
+  }
+  countryDetails.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
+
+  return countryDetails;
 }
