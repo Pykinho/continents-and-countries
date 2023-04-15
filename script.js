@@ -10,12 +10,41 @@ const continentMap = {
   SA: 'South America',
 };
 
-const continentName = prompt('Enter a continent name:');
+document.querySelector('.search ').addEventListener('click', async () => {
+  const continentName = document.querySelector('.name').value;
+  const numCountries = Number(document.querySelector('.amount').value);
+  document.querySelector('.right').innerHTML = '';
 
-const numCountries = parseInt(
-  prompt('Enter a number of countries to display (2-10):'),
-  10
-);
+  try {
+    const countries = await getCountries(
+      graphqlUrl,
+      continentMap,
+      continentName,
+      numCountries,
+      query
+    );
+    const countriesDetails = await getCountryDetails(countries);
+    document.querySelector('.right').innerHTML += `
+    <table class="styled-table">
+      <thead>
+        <tr>
+            <th>Name</th>
+            <th>Capital</th>
+            <th>Subregion</th>
+            <th>Population</th>
+            <th>Currencies</th>
+            <th>Languages</th>
+        </tr>
+      </thead>
+      <tbody>
+      ${generateListItems(countriesDetails)};
+      </tbody>
+    </table>`;
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 const graphqlUrl = 'https://countries.trevorblades.com/';
 
 const query = `
@@ -27,21 +56,6 @@ const query = `
     }
   }
 `;
-
-(async () => {
-  try {
-    const countries = await getCountries(
-      graphqlUrl,
-      continentMap,
-      continentName,
-      numCountries,
-      query
-    );
-    console.log(await getCountryDetails(countries));
-  } catch (error) {
-    console.error(error);
-  }
-})();
 
 function getSampleCountries(countries, size) {
   const result = [];
@@ -76,11 +90,15 @@ async function getCountries(
   const continentCode = getContinentCode(continentMap, continentName);
 
   if (!continentCode) {
-    alert('Invalid continent name!');
+    alert(
+      `Invalid continent name! Possible names: ${Object.values(continentMap)}. `
+    );
+    throw new Error('Invalid continent name!');
   }
 
   if (isNaN(numCountries) || numCountries < 2 || numCountries > 10) {
-    alert('Invalid number of countries!');
+    alert('Invalid number of countries! Choose numbers between 2 and 10.');
+    throw new Error('Invalid number of countries!');
   }
 
   const response = await fetch(graphqlUrl, {
@@ -118,7 +136,7 @@ async function getCountryDetails(countries) {
         countryData;
       const officialName = name.official;
       for (const currency of Object.values(currencies)) {
-        currencyNames.push(currency);
+        currencyNames.push(currency.name);
       }
 
       for (const language of Object.values(languages)) {
@@ -150,4 +168,20 @@ async function getCountryDetails(countries) {
   });
 
   return countryDetails;
+}
+
+function generateListItems(arr) {
+  let items = '';
+  for (const x of arr) {
+    items += `
+    <tr> 
+      <td>${x.name}</td> 
+      <td>${x.capital}</td>
+      <td>${x.subregion}</td>
+      <td>${x.population}</td>
+      <td>${x.currencies}</td>
+      <td>${x.languages}</td>
+    </tr>`;
+  }
+  return items;
 }
