@@ -24,23 +24,31 @@ header {
 }
 
 main {
-  height: 65vh;
+  height: 95vh;
   color: #eee;
-  display: flex;
+  margin-top: 1%;
+  margin-left: 2%;
+  margin-right: 2%;
   align-items: center;
   justify-content: space-around;
 }
 
-.left {
-  width: 10rem;
+.user-input {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  margin-top: 2rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  justify-content: center;
 }
 
-.right {
-  width: 52rem;
-  font-size: 2.5rem;
+.result {
+  display: flex;
+  align-items: center;
+  margin-top: 5rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  justify-content: center;
 }
 
 /* ELEMENTS STYLE */
@@ -59,12 +67,12 @@ h1 {
   border: 4px solid #eee;
   font-family: inherit;
   color: inherit;
-  font-size: 2rem;
+  font-size: 1.5rem;
   padding: 2.5rem;
   width: 25rem;
   text-align: center;
   display: block;
-  margin-bottom: 3rem;
+  margin-top: 1rem;
 }
 
 .amount {
@@ -72,36 +80,40 @@ h1 {
   border: 4px solid #eee;
   font-family: inherit;
   color: inherit;
-  font-size: 2rem;
+  font-size: 1.5rem;
   padding: 2.5rem;
   width: 25rem;
   text-align: center;
   display: block;
-  margin-bottom: 3rem;
+  margin-top: 1rem;
 }
 
 .btn {
-  border: none;
+  border: 4px solid #eee;
   background-color: #eee;
   color: #222;
-  font-size: 2rem;
+  font-size: 1.5em;
   font-family: inherit;
-  padding: 2rem 3rem;
+  padding: 2.5rem;
   cursor: pointer;
+  width: 25rem;
+  display: block;
+  margin-top: 2rem;
 }
 
 .btn:hover {
-  background-color: #ccc;
+  background-color: #eee;
 }
 
 .styled-table {
   border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 0.4em;
+  font-size: 0.8em;
   font-family: inherit;
-  min-width: 400px;
+  min-width: 1000px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  align-self: center;
+  /* align-self: center; */
+  /* display: block;
+  justify-content: center; */
 }
 
 .styled-table thead tr {
@@ -111,7 +123,7 @@ h1 {
 }
 .styled-table th,
 .styled-table td {
-  padding: 12px 15px;
+  padding: 15px 15px;
 }
 
 .styled-table tbody tr {
@@ -120,4 +132,31 @@ h1 {
 
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid #eee;
+}
+
+.labels {
+  font-size: 1.1rem;
+  text-align: center;
+  display: block;
+  justify-content: center;
+}
+.loader {
+  border: 16px solid #eee;
+  border-top: 16px solid #29f1e1;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 2s linear infinite;
+  /* align-self: center; */
+  /* display: block;
+  justify-content: center; */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

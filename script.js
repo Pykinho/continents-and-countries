@@ -13,7 +13,12 @@ const continentMap = {
 document.querySelector('.search ').addEventListener('click', async () => {
   const continentName = document.querySelector('.name').value;
   const numCountries = Number(document.querySelector('.amount').value);
-  document.querySelector('.right').innerHTML = '';
+  document.querySelector('.result').innerHTML = `
+  <div>
+    <label for="loader" class="labels">Result:</label>
+  </div>
+    <div id="loader" class="loader"></div>
+    `;
 
   try {
     const countries = await getCountries(
@@ -24,8 +29,11 @@ document.querySelector('.search ').addEventListener('click', async () => {
       query
     );
     const countriesDetails = await getCountryDetails(countries);
-    document.querySelector('.right').innerHTML += `
-    <table class="styled-table">
+    document.querySelector('.result').innerHTML = `
+    <div">
+    <label for="loader" class="labels">Result:</label>
+  </div>
+    <table id="styled-table" class="styled-table">
       <thead>
         <tr>
             <th>Name</th>
