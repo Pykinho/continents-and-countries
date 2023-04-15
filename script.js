@@ -11,26 +11,16 @@ const continentMap = {
 };
 
 const continentName = prompt('Enter a continent name:');
-const continentCode = getContinentCode(continentMap, continentName);
-
-if (!continentCode) {
-  alert('Invalid continent name!');
-}
 
 const numCountries = parseInt(
   prompt('Enter a number of countries to display (2-10):'),
   10
 );
-
-if (isNaN(numCountries) || numCountries < 2 || numCountries > 10) {
-  alert('Invalid number of countries!');
-}
-
 const graphqlUrl = 'https://countries.trevorblades.com/';
 
 const query = `
-  query {
-    continent(code: "${continentCode}") {
+  query($code: ID!){
+    continent(code: $code) {
       countries {
         name
       }
@@ -38,7 +28,33 @@ const query = `
   }
 `;
 
-const countries = getCountries();
+(async () => {
+  try {
+    const countries = await getCountries(
+      graphqlUrl,
+      continentMap,
+      continentName,
+      numCountries,
+      query
+    );
+  } catch (error) {
+    console.error(error);
+  }
+})();
+
+function getSampleCountries(countries, size) {
+  const result = [];
+  const used = new Set();
+
+  while (result.length < size) {
+    const i = Math.floor(Math.random() * countries.length);
+    if (!used.has(i)) {
+      used.add(i);
+      result.push(countries[i]);
+    }
+  }
+  return result;
+}
 
 function getContinentCode(map, value) {
   for (const k in map) {
@@ -49,17 +65,38 @@ function getContinentCode(map, value) {
   return '';
 }
 
-async function getCountries() {
+async function getCountries(
+  graphqlUrl,
+  continentMap,
+  continentName,
+  numCountries,
+  query
+) {
+  const continentCode = getContinentCode(continentMap, continentName);
+
+  if (!continentCode) {
+    alert('Invalid continent name!');
+  }
+
+  if (isNaN(numCountries) || numCountries < 2 || numCountries > 10) {
+    alert('Invalid number of countries!');
+  }
+
   const response = await fetch(graphqlUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({ query }),
+    body: JSON.stringify({
+      query: query,
+      variables: { code: continentCode },
+    }),
   });
 
   const { data } = await response.json();
   const countries = data.continent.countries.map(country => country.name);
-  return countries;
+
+  const sampleCountries = getSampleCountries(countries, numCountries);
+  return sampleCountries;
 }
