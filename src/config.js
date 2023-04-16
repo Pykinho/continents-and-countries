@@ -26,3 +26,4 @@ export const continentAlert = 'Invalid continent name! Possible names: ';
 export const noInformation = 'No information found';
 export const continentError = 'Invalid continent name!';
 export const numberError = 'Invalid number of countries!';
+export const restUrl = 'https://restcountries.com/v3.1/name/';
