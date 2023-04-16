@@ -1,0 +1,11 @@
+{
+  "name": "continents-and-countries",
+  "version": "1.0.0",
+  "description": "Continents and countries application",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "author": "Mikolaj Pyka",
+  "license": "ISC"
+}
