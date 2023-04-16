@@ -63,12 +63,12 @@ export class ContinentAndCountrySearch {
     for (const x of arr) {
       items += `
         <tr> 
-          <td>${x.Name ? x.name : noInformation}</td> 
-          <td>${x.Capital ? x.capital : noInformation}</td>
-          <td>${x.Subregion ? x.subregion : noInformation}</td>
-          <td>${x.Population ? x.population : noInformation}</td>
-          <td>${x.Currencies ? x.currencies : noInformation}</td>
-          <td>${x.Languages ? x.languages : noInformation}</td>
+          <td>${x.Name ? x.Name : noInformation}</td> 
+          <td>${x.Capital ? x.Capital : noInformation}</td>
+          <td>${x.Subregion ? x.Subregion : noInformation}</td>
+          <td>${x.Population ? x.Population : noInformation}</td>
+          <td>${x.Currencies ? x.Currencies : noInformation}</td>
+          <td>${x.Languages ? x.Languages : noInformation}</td>
         </tr>`;
     }
     return items;
