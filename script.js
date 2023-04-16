@@ -178,15 +178,16 @@ async function getCountryDetails(countries) {
 
 function generateListItems(arr) {
   let items = '';
+  const noInformation = 'No information found';
   for (const x of arr) {
     items += `
     <tr> 
-      <td>${x.name}</td> 
-      <td>${x.capital}</td>
-      <td>${x.subregion}</td>
-      <td>${x.population}</td>
-      <td>${x.currencies}</td>
-      <td>${x.languages}</td>
+      <td>${x.name ? x.name : noInformation}</td> 
+      <td>${x.capital ? x.capital : noInformation}</td>
+      <td>${x.subregion ? x.subregion : noInformation}</td>
+      <td>${x.population ? x.population : noInformation}</td>
+      <td>${x.currencies ? x.currencies : noInformation}</td>
+      <td>${x.languages ? x.languages : noInformation}</td>
     </tr>`;
   }
   return items;
