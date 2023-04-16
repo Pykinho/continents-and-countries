@@ -40,12 +40,10 @@ To run the solution use:
 
 ![image](https://user-images.githubusercontent.com/62252059/232345632-6910c529-86a9-4be0-95d1-4f1d150a3698.png)
 
-In the "Name of the continent" input enter the name of the continent, for which you would like to search for countries. You can choose from: Africa, Antarctica, Asia, Europe, North America, Oceania and South America.
+In the "Name of the continent" input enter the name of the continent, for which you would like to search for the countries. You can choose from: Africa, Antarctica, Asia, Europe, North America, Oceania and South America.
 
 In the "Number of countries" input enter the number of countries, you would like to search for. You can choose between 2 and 10 (including these values).
 
-When you are ready, press the search button.
-
-On the screen there will be presented chosen number of random countries from chosen continent and information about them.
+When you are ready, press the search button. On the screen there will be presented the chosen number of random countries from the chosen continent and some information about them.
 
 If there was no information found about certain detail of the country, the message “No information found!” is presented.
