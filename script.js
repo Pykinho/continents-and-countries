@@ -1,21 +1,21 @@
-'use strict';
+import {
+  continentMap,
+  loader,
+  query,
+  graphqlUrl,
+  continentAlert,
+  numberAlert,
+  noInformation,
+  continentError,
+} from './config.js';
+import { WrongInputError } from './error.js';
 
-const continentMap = {
-  AF: 'Africa',
-  AN: 'Antarctica',
-  AS: 'Asia',
-  EU: 'Europe',
-  NA: 'North America',
-  OC: 'Oceania',
-  SA: 'South America',
-};
+('use strict');
 
 document.querySelector('.search ').addEventListener('click', async () => {
   const continentName = document.querySelector('.name').value;
   const numCountries = Number(document.querySelector('.amount').value);
-  document.querySelector('.result').innerHTML = `
-    <div id="loader" class="loader"></div>
-    `;
+  document.querySelector('.result').innerHTML = loader;
 
   try {
     const countries = await getCountries(
@@ -51,18 +51,6 @@ document.querySelector('.search ').addEventListener('click', async () => {
   }
 });
 
-const graphqlUrl = 'https://countries.trevorblades.com/';
-
-const query = `
-  query($code: ID!){
-    continent(code: $code) {
-      countries {
-        name
-      }
-    }
-  }
-`;
-
 function getSampleCountries(countries, size) {
   const result = [];
   const used = new Set();
@@ -96,15 +84,13 @@ async function getCountries(
   const continentCode = getContinentCode(continentMap, continentName);
 
   if (!continentCode) {
-    alert(
-      `Invalid continent name! Possible names: ${Object.values(continentMap)}. `
-    );
-    throw new Error('Invalid continent name!');
+    alert(continentAlert + `${Object.values(continentMap)}. `);
+    throw new WrongInputError(continentError);
   }
 
   if (isNaN(numCountries) || numCountries < 2 || numCountries > 10) {
-    alert('Invalid number of countries! Choose numbers between 2 and 10.');
-    throw new Error('Invalid number of countries!');
+    alert(numberAlert);
+    throw new WrongInputError();
   }
 
   const response = await fetch(graphqlUrl, {
@@ -159,7 +145,7 @@ async function getCountryDetails(countries) {
     } else {
       countryDetails.push({
         name: country,
-        information: 'No information found',
+        information: noInformation,
       });
     }
   }
@@ -178,7 +164,6 @@ async function getCountryDetails(countries) {
 
 function generateListItems(arr) {
   let items = '';
-  const noInformation = 'No information found';
   for (const x of arr) {
     items += `
     <tr> 
