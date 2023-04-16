@@ -14,9 +14,6 @@ document.querySelector('.search ').addEventListener('click', async () => {
   const continentName = document.querySelector('.name').value;
   const numCountries = Number(document.querySelector('.amount').value);
   document.querySelector('.result').innerHTML = `
-  <div>
-    <label for="loader" class="labels">Result:</label>
-  </div>
     <div id="loader" class="loader"></div>
     `;
 
@@ -29,26 +26,27 @@ document.querySelector('.search ').addEventListener('click', async () => {
       query
     );
     const countriesDetails = await getCountryDetails(countries);
+    const resultTable = generateListItems(countriesDetails);
     document.querySelector('.result').innerHTML = `
-    <div">
-    <label for="loader" class="labels">Result:</label>
-  </div>
-    <table id="styled-table" class="styled-table">
-      <thead>
-        <tr>
-            <th>Name</th>
-            <th>Capital</th>
-            <th>Subregion</th>
-            <th>Population</th>
-            <th>Currencies</th>
-            <th>Languages</th>
-        </tr>
-      </thead>
-      <tbody>
-      ${generateListItems(countriesDetails)};
-      </tbody>
-    </table>`;
+    <div style="overflow-x:auto;">
+      <table class="styled-table">
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Capital</th>
+              <th>Subregion</th>
+              <th>Population</th>
+              <th>Currencies</th>
+              <th>Languages</th>
+          </tr>
+        </thead>
+        <tbody>
+        ${resultTable}
+        </tbody>
+      </table>
+    </div>`;
   } catch (error) {
+    document.querySelector('.result').innerHTML = '';
     console.error(error);
   }
 });
